@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    display: flex;
+    max-width: 100%;
+}
+
+#navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 300px; /* Adjust as needed */
+    height: 100vh;
+    overflow-y: auto;
+    background-color: white; /* To ensure text doesn't overlap when scrolling */
+    z-index: 2; /* Ensure navbar is above main-doc */
+    border-right: 1px solid #ddd;
+}
+
+#navbar header {
+    padding: 10px;
+    font-size: 1.4em;
+    background-color: #eee;
+    text-align: center;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    background: #f9f9f9; /* Added background color for better visibility */
+}
+
+.nav-link:hover {
+    background-color: #e0e0e0;
+}
+
+#main-doc {
+    margin-left: 300px; /* This should match the navbar width */
+    padding: 20px; /* Added padding for spacing */
+    flex-grow: 1; /* Allows main-doc to fill the remaining space */
+}
+
+.main-section {
+    background-color: white; /* Ensure section background is above navbar */
+    padding: 20px;
+    margin-bottom: 1em; /* Space between sections */
+}
+
+.main-section header {
+    font-size: 1.6em;
+    margin-bottom: 10px;
+}
+
+code {
+    font-family: 'Courier New', monospace; /* Monospace font for code */
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin: 10px 0;
+    overflow-x: auto; /* Allow horizontal scrolling for long code */
+    display: block; /* Change to block from inline-block if preferred */
+    white-space: pre; /* Prevents the text from wrapping inside code block */
+    word-break: normal; /* Keeps words from breaking */
+    border: 1px solid #ccc; /* Adds a border to the code block */
+}
+
+@media (max-width: 800px) {
+    #navbar {
+        position: static; /* Static position for smaller screens */
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #main-doc {
+        margin-left: 0;
+        padding: 10px;
+    }
+}

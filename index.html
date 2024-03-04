@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav id="navbar">
+        <header>Terraform Documentation</header>
+        <a class="nav-link" href="#What_is_Infrastructure_as_Code">What is Infrastructure as Code</a>
+        <a class="nav-link" href="#How_is_it_different_from_how_infrastructure_is_normally_managed">How is it different from how infrastructure is normally managed</a>
+        <a class="nav-link" href="#What_is_Terraform">What is Terraform</a>
+        <a class="nav-link" href="#Common_use_cases_for_Terraform">Common use cases for Terraform</a>
+        <a class="nav-link" href="#Basic_Terraform_CLI_Features">Basic Terraform CLI Features</a>
+        <a class="nav-link" href="#Reference">Reference</a>
+    </nav>
+
+    <main id="main-doc">
+        <section class="main-section" id="What_is_Infrastructure_as_Code">
+            <header>What is Infrastructure as Code</header>
+            <p>IAC is a mainstream pattern for managing infrastructure with configuration files rather than through a GUI or through manual command line script sequences. It allows you to build, change, and manage your infrastructure in a safe, consistent, trackable, and repeatable way by defining resource configurations that you can version (in a version control system like GitHub), reuse, and share.
+                Terraform is the most commonly used infrastructure as code provisioning engine.</p>
+            <p>Cloud Development Kit for Terraform (CDKTF) allows you to use familiar programming languages to define and provision infrastructure. This gives you access to the entire Terraform ecosystem without learning HashiCorp Configuration Language (HCL) and lets you leverage the power of your existing toolchain for testing, dependency management, etc.</p>
+            <p>CDK for Terraform leverages concepts and libraries from the AWS Cloud Development Kit to translate your code into infrastructure configuration files for Terraform.</p>
+            <p>Use <code>cdktf</code> CLI commands to provision infrastructure with Terraform or synthesize your code into a JSON configuration file that others can use with Terraform directly.</p>
+        </section>
+
+    
+        <section class="main-section" id="How_is_it_different_from_how_infrastructure_is_normally_managed">
+            <header>How is it different from how infrastructure is normally managed</header>
+            <p>In traditional data centres, VMware is used to create and manage virtual machines (VMs). These are like separate computers that run on a single physical machine. If someone needed to set up a new VM, they would ask the IT team, usually by submitting a request. Then, an IT specialist would use VMware's control panel to manually create and configure the VM, like allocating memory and storage.</p>
+            <p>This manual process was fine when the number of VMs was small, and they didn't change often. VMs could last a long time without much need for adjustment, which suited the slower pace of change in many businesses.</p>
+            
+            <p>However, things are evolving:</p>
+            
+            <ul>
+            <li>Cloud Computing: Now, we're moving to the cloud, where instead of using a manual control panel, everything is done through automated commands, known as APIs (Application Programming Interfaces). It's like having a remote control for setting up and managing VMs without physically touching the control panel.</li>
+            <li>Elasticity: In the cloud, we often change how many VMs we're using based on our needs at the moment. For example, a shopping website might use more VMs during a sale to handle the extra visitors, then reduce them later to save money. This is different from a private data center, where VMs were set up and left running for a long time.</li>
+            <li>Scale: We also tend to use a lot more VMs in the cloud, but they might be smaller and more specialised. This means there's a lot more setting up and taking down to do, which can happen frequently, even daily.</li>
+            </ul>
+
+            <p>The old way of manually managing VMs becomes impractical with the cloud's flexibility and scale. It would be overwhelming to submit and manage thousands of requests constantly. That's where 'infrastructure as code' comes in. Instead of manually setting up each VM, we write instructions (or code) that do it for us. This code can be run automatically to create VMs whenever we need them and take them down when we don't. It's like creating a recipe that the computer follows to make VMs on demand.</p>
+            <p>This method is not only faster but also more reliable. It reduces the chance of mistakes that can happen when things are done manually. Plus, it keeps a record of everything that's been done, which helps us track changes and understand our infrastructure over time. It's a smarter, more efficient way to manage VMs, especially when dealing with lots of changes and a large number of VMs.</p>
+            <p>That really becomes the value. It is really the versioning of it, the reusability of the code, and the ability to then do automation on top of it.</p>
+
+            <p>Users of Terraform CLI, Terraform Cloud, and Terraform Enterprise need to be aware of how to navigate Terraform's configuration language. Terraform's language is its primary user interface. Configuration files you write in Terraform language tell Terraform what plugins to install, what infrastructure to create, and what data to fetch. Terraform language also lets you define dependencies between resources and create multiple similar resources from a single configuration block.</p>
+            <p>The main purpose of the Terraform language is declaring resources, which represent infrastructure objects. All other language features exist only to make the definition of resources more flexible and convenient. A Terraform configuration is a complete document in the Terraform language that tells Terraform how to manage a given collection of infrastructure. A configuration can consist of multiple files and directories.
+            <p>The syntax of the Terraform language consists of only a few basic elements:</p>
+            <code>resource "aws_vpc" "main" {
+                cidr_block = var.base_cidr_block
+              }
+              
+              <BLOCK TYPE> "<BLOCK LABEL>" "<BLOCK LABEL>" {
+                # Block body
+                <IDENTIFIER> = <EXPRESSION> # Argument
+              }</code>
+            <p>The Terraform language is declarative, describing an intended goal rather than the steps to reach that goal. The ordering of blocks and the files they are organized into are generally not significant; Terraform only considers implicit and explicit relationships between resources when determining an order of operations.</p>
+            <ul>
+                <li>Blocks are containers for other content and usually represent the configuration of some kind of object, like a resource. Blocks have a block type, can have zero or more labels, and have a body that contains any number of arguments and nested blocks. Most of Terraform's features are controlled by top-level blocks in a configuration file.</li>
+                <li>Arguments assign a value to a name. They appear within blocks.</li>
+                <li>Expressions represent a value, either literally or by referencing and combining other values. They appear as values for arguments, or within other expressions.</li>
+            </ul>
+            
+        </section>
+
+   
+        <section class="main-section" id="What_is_Terraform">
+            <header>What is Terraform</header>
+            <p>Terraform is a tool for building, changing, and versioning infrastructure safely and efficiently. Terraform can manage existing and popular service providers as well as custom in-house solutions.</p>
+            
+            <p>The key features of Terraform are:</p>
+            <ul>
+            <li>Infrastructure as Code: Infrastructure is described using a high-level configuration syntax. This allows a blueprint of your datacenter to be versioned and treated as you would any other code. Additionally, infrastructure can be shared and re-used.</li>
+            <li>Execution Plans: Terraform has a "planning" step where it generates an execution plan. The execution plan shows what Terraform will do when you call apply. This lets you avoid any surprises when Terraform manipulates infrastructure.</li>
+            <li>Resource Graph: Terraform builds a graph of all your resources, and parallelizes the creation and modification of any non-dependent resources. Because of this, Terraform builds infrastructure as efficiently as possible, and operators get insight into dependencies in their infrastructure.</li>
+            <li>Change Automation: Complex changesets can be applied to your infrastructure with minimal human interaction. With the previously mentioned execution plan and resource graph, you know exactly what Terraform will change and in what order, avoiding many possible human errors.</li>
+            </ul>
+            <p>The following example describes a simple network topology for Amazon Web Services, just to give a sense of the overall structure and syntax of the Terraform language. Similar configurations can be created for other virtual network services, using resource types defined by other providers, and a practical network configuration will often contain additional elements not shown here.</p>
+            <code>terraform {
+                required_providers {
+                  aws = {
+                    source  = "hashicorp/aws"
+                    version = "~> 1.0.4"
+                  }
+                }
+              }
+              
+              variable "aws_region" {}
+              
+              variable "base_cidr_block" {
+                description = "A /16 CIDR range definition, such as 10.1.0.0/16, that the VPC will use"
+                default = "10.1.0.0/16"
+              }
+              
+              variable "availability_zones" {
+                description = "A list of availability zones in which to create subnets"
+                type = list(string)
+              }
+              
+              provider "aws" {
+                region = var.aws_region
+              }
+              
+              resource "aws_vpc" "main" {
+                # Referencing the base_cidr_block variable allows the network address
+                # to be changed without modifying the configuration.
+                cidr_block = var.base_cidr_block
+              }
+              
+              resource "aws_subnet" "az" {
+                # Create one subnet for each given availability zone.
+                count = length(var.availability_zones)
+              
+                # For each subnet, use one of the specified availability zones.
+                availability_zone = var.availability_zones[count.index]
+              
+                # By referencing the aws_vpc.main object, Terraform knows that the subnet
+                # must be created only after the VPC is created.
+                vpc_id = aws_vpc.main.id
+              
+                # Built-in functions and operators can be used for simple transformations of
+                # values, such as computing a subnet address. Here we create a /20 prefix for
+                # each subnet, using consecutive addresses for each availability zone,
+                # such as 10.1.16.0/20 .
+                cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 4, count.index+1)
+              }</code>
+        </section>
+
+        <section class="main-section" id="Common_use_cases_for_Terraform">
+            <header>Common use cases for Terraform</header>
+            <ul>
+            <li>Infrastructure as code: Use infrastructure as code to automate the provisioning of your infrastructure including servers, databases, firewall policies, and almost any other resource.</li>
+            <li>Multi-cloud provisioning: Deploy serverless functions with AWS Lambda, manage Microsoft Azure Active Directory resources, provision a load balancer in Google Cloud, and more.</li>
+            <li>Manage Kubernetes: Provision and manage Kubernetes clusters on AWS, Microsoft Azure, or Google Cloud, and interact with your cluster using the Kubernetes Terraform provider.</li>
+            <li>Manage network infrastructure: Automate key networking tasks like updating load balancer target pools or applying firewall policies.</li>
+            <li>Manage virtual images: Build and manage virtual images with Terraform and Packer.
+            <li>Integrate with existing workflows: Automate infrastructure deployments through existing CI/CD workflows.</li>
+            <li>Enforce policy as code: Enforce policy guardrails before your users create infrastructure using Sentinel policy as code.</li>
+            <li>Inject secrets into Terraform: Use HashiCorp Vault to automate the usage of dynamically generated secrets and credentials within Terraform configurations.</li>
+            </ul>
+            <p>For example, to deploy federated multi-cloud Kubernetes cluster:</p>
+            <ul>
+            <li>Clone the example repository as provided <code> git clone https://github.com/hashicorp/learn-terraform-multicloud-kubernetes.git</code></li>
+            <li>Change into the repository directory <code> cd learn-terraform-multicloud-kubernetes</code></li>
+            </ul>
+            <p>This repository has 4 subdirectories:</p>   
+            <li><code>eks</code>contains configuration for an AWS EKS cluster.</li>
+            <li><code>aks</code>contains configuration for an Azure AKS cluster.</li>
+            <li><code>consul</code>contains configuration for Kubernetes deployments of federated Consul datacenters.</li>
+            <li><code>couning-service</code>contains configuration for a two-tier Kubernetes application to verify Consul federation.</li>
+            </ul>
+        </section>
+
+        <section class="main-section" id="Basic_Terraform_CLI_Features">
+            <header>Basic Terraform CLI features</header>
+            <p>The command line interface to Terraform is the <code>terraform command</code> which accepts a variety of subcommands such as <code>terraform init</code> or <code>terraform plan</code>.</p>
+            <p>To view a list of the commands available in your current Terraform version, run <code>terraform</code> with no additional arguments.</p>
+        </section>
+        <section class="main-section" id="Reference">
+            <header>Reference</header>
+            <article>
+              <ul>
+                <li>
+                  All the documentation in this page is taken from
+                  <a
+                    href="https://developer.hashicorp.com/terraform"
+                    target="_blank"
+                    >Terraform by Hashicorp</a
+                  >
+                </li>
+              </ul>
+            </article>
+          </section>
+    </main>
+</body>
+</html>
